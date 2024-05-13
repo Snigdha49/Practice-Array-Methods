@@ -1,9 +1,9 @@
 const main = document.querySelector("#main");
 const addUserBtn = document.querySelector("#addUser");
-const doubleMoney = document.querySelector("#double");
-const millionaire = document.querySelector("#millionaire");
-const sortRichest = document.querySelector("#sort");
-const entireWealth = document.querySelector("#calculateWealth");
+const doubleMoneyBtn = document.querySelector("#double");
+const millionaireBtn = document.querySelector("#millionaire");
+const sortRichestBtn = document.querySelector("#sort");
+const entireWealthBtn = document.querySelector("#calculateWealth");
 
 let data = [];
 // Fetching Random user and Adding money
@@ -39,6 +39,18 @@ const doublemoney = () => {
     updateDom()
 }
 
+// Filtering millionaire
+const showMillionaire = () => {
+    data = data.filter((user)=>user.money>1000000);
+    updateDom();
+}
+
+// Sorting Richest
+const findRichest = () => {
+    data = data.sort((a,b) => b.money - a.money)
+    updateDom()
+}
+
 // Adding New update object to data arr
 const addData = (obj) =>{
     data.push(obj);
@@ -64,5 +76,16 @@ const formatMoney = (number) => {
     return USdollar.format(number)
 }
 
+const calculateWealth = () => {
+   const wealth =  data.reduce((acc,user) => (acc += user.money), 0);
+
+   const wealthElement = document.createElement('div')
+   wealthElement.innerHTML = `<h3>Total Wealth: <strong>${formatMoney(wealth)}</strong></h3>`
+   main.appendChild(wealthElement)
+};
+
 addUserBtn.addEventListener('click',getRandomUsers)
-doubleMoney.addEventListener('click',doublemoney)
+doubleMoneyBtn.addEventListener('click',doublemoney)
+millionaireBtn.addEventListener('click', showMillionaire)
+sortRichestBtn.addEventListener('click', findRichest)
+entireWealthBtn.addEventListener('click', calculateWealth)

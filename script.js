@@ -29,9 +29,40 @@ async function getRandomUsers(){
 
     addData(newUser)
 }
+// double money
+const doublemoney = () => {
+    data = data.map((user) => {
+        return {...user,
+         money: user.money *2
+        };
+    });
+    updateDom()
+}
+
+// Adding New update object to data arr
 const addData = (obj) =>{
     data.push(obj);
     // console.log(obj)
     updateDom()
 }
+const updateDom = (providedData = data) => {
+    main.innerHTML = "<h2><strong>Person</strong>Wealth</h2>";
+    
+    providedData.forEach(item => {
+        const element = document.createElement('div');
+        element.classList.add('person');
+        element.innerHTML = `<strong>${item.name}</strong> ${formatMoney(item.money)}`
+        main.appendChild(element)
+    });
+}
+// formatiing random into money 
+const formatMoney = (number) => {
+    let USdollar = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    })
+    return USdollar.format(number)
+}
 
+addUserBtn.addEventListener('click',getRandomUsers)
+doubleMoney.addEventListener('click',doublemoney)
